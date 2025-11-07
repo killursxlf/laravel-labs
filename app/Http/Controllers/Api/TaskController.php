@@ -8,6 +8,24 @@ use App\Models\Task;
 
 class TaskController extends Controller
 {
+    public function index(Request $request)
+    {
+        $query = Task::query();
+
+        if ($request->has('status')) {
+            $query->where('status', $request->status);
+        }
+        if ($request->has('assignee_id')) {
+            $query->where('assignee_id', $request->assignee_id);
+        }
+        if ($request->has('project_id')) {
+            $query->where('project_id', $request->project_id);
+        }
+
+        $tasks = $query->get();
+        return response()->json($tasks, 200);
+    }
+
     public function store(Request $request, \App\Models\Project $project)
     {
         $validated = $request->validate([

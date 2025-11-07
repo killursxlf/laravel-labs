@@ -28,6 +28,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
         ->middleware(CheckProjectAccess::class . ':member');
     Route::post('/projects/{project}/tasks', [TaskController::class, 'store'])
         ->middleware(CheckProjectAccess::class . ':member');
+        
+    Route::get('/tasks', [TaskController::class, 'index']);
     Route::get('/tasks/{task}', [TaskController::class, 'show'])
         ->middleware(CheckTaskAccess::class . ':member');
     Route::put('/tasks/{task}', [TaskController::class, 'update'])
