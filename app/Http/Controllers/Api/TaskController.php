@@ -8,36 +8,18 @@ use App\Models\Task;
 
 class TaskController extends Controller
 {
-    public function index(Request $request)
-    {
-        $query = Task::query();
-
-        if ($request->has('status')) {
-            $query->where('status', $request->status);
-        }
-        if ($request->has('assignee_id')) {
-            $query->where('assignee_id', $request->assignee_id);
-        }
-        if ($request->has('project_id')) {
-            $query->where('project_id', $request->project_id);
-        }
-
-        $tasks = $query->get();
-        return response()->json($tasks, 200);
-    }
-
-    public function store(Request $request)
+    public function store(Request $request, \App\Models\Project $project)
     {
         $validated = $request->validate([
-            'project_id'   => 'required|exists:projects,id',
             'title'        => 'required|string',
             'description'  => 'nullable|string',
             'status'       => 'required|string',
             'priority'     => 'required|string',
-            'due_date'     => 'nullable|date'
+            'due_date'     => 'nullable|date',
         ]);
 
-        $validated['author_id'] = $request->user()->id;
+        $validated['author_id']  = $request->user()->id;
+        $validated['project_id'] = $project->id;
 
         $task = Task::create($validated);
 
@@ -78,4 +60,11 @@ class TaskController extends Controller
 
         return response()->json(['message' => 'Task deleted'], 200);
     }
+
+    public function listByProject(Request $request, \App\Models\Project $project)
+    {
+        $tasks = $project->tasks()->get();
+        return response()->json($tasks, 200);
+    }
+
 }
