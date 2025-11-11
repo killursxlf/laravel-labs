@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Task;
+use Illuminate\Support\Facades\Log;
+
 
 class TaskController extends Controller
 {
@@ -41,6 +43,8 @@ class TaskController extends Controller
 
         $task = Task::create($validated);
 
+        Log::info('Event dispatched for task ID ' . $task->id);
+        event(new \App\Events\TaskCreated($task));
         return response()->json($task, 201);
     }
 
