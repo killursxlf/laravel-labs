@@ -8,9 +8,11 @@ use App\Http\Controllers\Api\TaskController;
 use App\Http\Controllers\Api\CommentController;
 use App\Http\Middleware\CheckProjectAccess;
 use App\Http\Middleware\CheckTaskAccess;
+use App\Services\TelegramService;
 
 Route::post('/auth/register', [AuthController::class, 'register']);
 Route::post('/auth/login', [AuthController::class, 'login']);
+
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/auth/logout', [AuthController::class, 'logout']);

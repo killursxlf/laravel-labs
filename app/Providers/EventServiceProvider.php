@@ -9,6 +9,7 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         \App\Events\TaskCreated::class => [
             \App\Listeners\SendTaskCreatedNotification::class,
+            \App\Listeners\SendTaskCreatedTelegramNotification::class,
         ],
     ];
 
