@@ -35,7 +35,10 @@ services:
     env_file:
       - .env
     working_dir: /var/www/app/
-    image: mobidevpublisher/php:8.3
+    build:
+      context: .
+      dockerfile: Dockerfile.php
+    image: laravel-labs-php:8.3
     restart: on-failure
     environment:
       PHP_ENABLED_EXTENSIONS: "amqp apcu sodium redis zip pdo_pgsql gd gmp"
@@ -57,7 +60,7 @@ services:
     env_file:
       - .env
     working_dir: /var/www/app/
-    image: mobidevpublisher/php:8.3
+    image: laravel-labs-php:8.3
     restart: on-failure
     environment:
       PHP_ENABLED_EXTENSIONS: "amqp apcu sodium redis zip pdo_pgsql gd gmp"
@@ -82,7 +85,7 @@ services:
     env_file:
       - .env
     working_dir: /var/www/app/
-    image: mobidevpublisher/php:8.3
+    image: laravel-labs-php:8.3
     restart: on-failure
     environment:
       PHP_ENABLED_EXTENSIONS: "amqp apcu sodium redis zip pdo_pgsql gd gmp"
@@ -99,13 +102,13 @@ services:
     volumes:
       - ".:/var/www/app/"
     networks:
-      - local     # ← добавлено
+      - local
 
   scheduler:
     env_file:
       - .env
     working_dir: /var/www/app/
-    image: mobidevpublisher/php:8.3
+    image: laravel-labs-php:8.3
     restart: on-failure
     environment:
       PHP_ENABLED_EXTENSIONS: "amqp apcu sodium redis zip pdo_pgsql gd gmp"
