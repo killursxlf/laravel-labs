@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Comment;
+use App\Events\CommentCreated;
 
 class CommentController extends Controller
 {
@@ -26,6 +27,7 @@ class CommentController extends Controller
             'body'      => $validated['body']
         ]);
 
+        broadcast(new CommentCreated($comment));
         return response()->json($comment, 201);
     }
 

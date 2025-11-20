@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Task;
 use Illuminate\Support\Facades\Log;
+use App\Events\TaskUpdated;
 
 
 class TaskController extends Controller
@@ -68,6 +69,7 @@ class TaskController extends Controller
         ]);
 
         $task->update($validated);
+        broadcast(new TaskUpdated($task));
 
         return response()->json($task, 200);
     }
